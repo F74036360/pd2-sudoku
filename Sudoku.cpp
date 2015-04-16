@@ -128,7 +128,7 @@ void Sudoku::printQ()
 }
 int Sudoku::Solve()
 {
-    int iscorrect=1;//看答案對不對
+    int iscorrect=0;//看答案對不對
     int tput=0,ans=0;
         //tput用來記在求哪個位置的值，ans看有幾組解
     int tempN[144];//記空格數的位置
@@ -136,13 +136,6 @@ int Sudoku::Solve()
         tempN[i]=0;
     }//初始化
     int count=0;//記有幾個空格
-    iscorrect=checkQ();//看問題有沒有存在不可解的因素
-    if(iscorrect!=0){
-        tput=150;
-        ans=0;
-        //cout<<ans<<endl;
-        return ans;
-    }//若問題本身已經不可解，則ans=0表無解，tput設很大以免跑入下面的迴圈
     while(tput<144&&tput>=0){
         if(su_num[tput]==0&&tput<144)//尋找空格
         {
@@ -150,21 +143,21 @@ int Sudoku::Solve()
                 tempN[count]=tput;//矩陣紀錄空格是在數獨的第幾個位置
                 su_num[tput]++;//將空格數+1
                 iscorrect=check(tput);//檢查是否可以填入
-            while(iscorrect!=0){
-                    su_num[tput]++;//若檢查沒過再繼續+1
+                while(iscorrect!=0){
+                su_num[tput]++;//若檢查沒過再繼續+1
+                iscorrect=check(tput);//繼續檢查
+                if(su_num[tput]>9){//如果填入數>9還是過不了代表之前有可能填錯，回到上一個空格位置填數
+                    su_num[tput]=0;//將正在填的位置數歸零
+                    count=count-1;
+                    tput=tempN[count];//回到上個位置重填
+                    su_num[tput]++;//將上個位置的數+1
                     iscorrect=check(tput);//繼續檢查
-                    if(su_num[tput]>9){//如果填入數>9還是過不了代表之前有可能填錯，回到上一個空格位置填數
-                        su_num[tput]=0;//將正在填的位置數歸零
-                        count=count-1;
-                        tput=tempN[count];//回到上個位置重填
-                        su_num[tput]++;//將上個位置的數+1
-                        iscorrect=check(tput);//繼續檢查
-                        if(count<0){
-                                ans=0;
-                                tput=150;
-                                break;
-                                        }//如果連第一個位置都填不了代表無解，跳離迴圈
-                    }
+                    if(count<0){
+                    ans=0;
+                    tput=150;
+                    break;
+                    }//如果連第一個位置都填不了代表無解，跳離迴圈
+                }
             }
         }
         else if(su_num[tput]!=0){
@@ -181,6 +174,7 @@ int Sudoku::Solve()
         for(ti=0;ti<144;ti++){
                 Osu_num[ti]=su_num[ti];
         }
+//反向尋找
         for(ti=0;ti<=count;ti++){
         tput=tempN[ti];
         su_num[tput]=0;
@@ -207,6 +201,7 @@ int Sudoku::Solve()
             }
         }
     }
+//反填若答案相同則只有一組解
     for(ti=0;ti<144;ti++){
         if(su_num[ti]!=Osu_num[ti]&&su_num[ti]!=0){
                 ans=2;
@@ -227,57 +222,7 @@ int Sudoku::Solve()
     }
     return ans;
 }
-int Sudoku::checkQ(){
-        divide();//先將題目分割做分析
-        int checkc[16][10],checkb[16][10],checkr[16][10],tempcheck,sol=0;
-        int countm=0,countM=0;
-        for(i=0;i<144;i++){
-                if(su_num[i]==-1){
-                        countm++;//計算題目有幾個-1
-                }
-                else if(su_num[i]>9)countM++;//計算有沒有>9的數字
-        }
-        if(countm!=36||countM>0){
-                sol=1;
-                return sol;//如果-1不是36個或有>9的數則此數獨必定無解，回傳1
-        }
-        for(i=0;i<16;i++){
-                for(j=0;j<10;j++){
-                        checkr[i][j]=0;
-                    checkb[i][j]=0;
-                    checkc[i][j]=0;
-                }
-        }//歸零
-        for(i=0;i<12;i++){
-                for(j=0;j<12;j++){
-                        if(row[i][j]>0){
-                                tempcheck=row[i][j];
-                            checkr[i][tempcheck]++;
-                        }//紀錄題目每列本身有沒有重複數字
-            if(column[i][j]>0){
-                tempcheck=column[i][j];
-                            checkc[i][tempcheck]++;
-            }//紀錄題目每行有無重複數字
-                }
-        }
-        for(i=0;i<16;i++){
-                for(j=0;j<9;j++){
-                        if(B[i][j]>0){
-                                tempcheck=B[i][j];
-                           checkb[i][tempcheck]++;
-                        }
-                }//紀錄題目每宮有無重複數字
-        }
-        for(i=0;i<16;i++){
-                for(j=1;j<=9;j++){
-                    if(checkr[i][j]>1)sol=1;
-                    else if(checkc[i][j]>1)sol=2;
-                    else if(checkb[i][j]>1)sol=3;
-                }
-        }
-        //若題目本身已經有重複數字了那此數獨必定無解，回傳
-        return sol;
-}
+
 int Sudoku::check(int tput){
         divide();//將題目分割做分析
         int a,b,c,d,e,wB,N=0;
@@ -332,7 +277,6 @@ int Sudoku::check(int tput){
 }
 
 void Sudoku::ReadIn(){
-//      Isu();
         int getdata;
         i=0;
         while(i<144){
@@ -341,4 +285,3 @@ void Sudoku::ReadIn(){
                 i++;
         }
 }
-
