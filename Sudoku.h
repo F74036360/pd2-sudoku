@@ -11,6 +11,7 @@ class Sudoku
 		void ReadIn();//解他人的題目 
 		 int Solve();//解題 
 	private:
+                void random();
 		void Isu();//初始化題目數獨矩陣 
 		 int checkQ();
 		 int check(int tput);//驗證填入數字是否正確 

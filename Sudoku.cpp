@@ -54,11 +54,88 @@ void Sudoku::divide(){
                 }
         }//將小列填入宮(直式填入)
 }
+void Sudoku::random(){
+	int tempr[12];
+	int b=rand()%7;
+        if(b==0){
+                for(j=0;j<12;j=j+3){
+                    for(i=0;i<12;i++){
+                    tempr[i]=row[j][i];
+                    row[j][i]=row[j+1][i];
+                    row[j+1][i]=tempr[i];
+                }
+                }
+        }//每宮23列互換
+        else if(b==1){
+                for(j=0;j<12;j=j+3){
+                    for(i=0;i<12;i++){
+                    tempr[i]=row[j+1][i];
+                    row[j+1][i]=row[j+2][i];
+                    row[j+2][i]=tempr[i];
+                }
+                }
+        }//每宮13列互換
+        else if(b==2){
+                for(j=0;j<12;j=j+3){
+                for(i=0;i<12;i++){
+                    tempr[i]=row[j][i];
+                    row[j][i]=row[j+2][i];
+                    row[j+2][i]=tempr[i];
+                }
+            }
+        }//每宮的12行互換
+        else if(b==3){
+        	for(i=0;i<12;i=i+3){
+        		for(j=0;j<12;j++){
+        			tempr[j]=column[i][j];
+        			column[i][j]=column[i+1][j];
+        			column[i+1][j]=tempr[j];
+        		}
+        	}
+        	for(i=0;i<12;i++){
+        		for(j=0;j<12;j++){
+        			row[i][j]=column[j][i];
+        		}
+        	}
+        } 
+        //13行互換 
+        else if(b==4){
+        	for(i=0;i<12;i=i+3){
+        		for(j=0;j<12;j++){
+        			tempr[j]=column[i][j];
+        			column[i][j]=column[i+2][j];
+        			column[i+2][j]=tempr[j];
+        		}
+        	}
+        	for(i=0;i<12;i++){
+        		for(j=0;j<12;j++){
+        			row[i][j]=column[j][i];
+        		}
+        	}
+        }
+        //23行互換 
+        else if(b==5){
+        	for(i=0;i<12;i=i+3){
+        		for(j=0;j<12;j++){
+        			tempr[j]=column[i+1][j];
+        			column[i+1][j]=column[i+2][j];
+        			column[i+2][j]=tempr[j];
+        		}
+        	}
+        	for(i=0;i<12;i++){
+        		for(j=0;j<12;j++){
+        			row[i][j]=column[j][i];
+        		}
+        	}
+        }
+        else if(b==6);//不做改變，直接傳回 
+}
 void Sudoku::GiveQuestion()
 {
+	    srand(time(NULL));
         Isu();
         divide();//將原有數獨矩陣分割
-    int a=rand()%3;//隨機
+    int a=rand()%15;//隨機
     //轉置
     if(a==1){
         int temp[12][12];
@@ -73,7 +150,7 @@ void Sudoku::GiveQuestion()
     //列互換
     else if(a==2){
         int tempr[12];
-        int b=rand()%3;
+        int b=rand()%6;
         if(b==0){
                 for(j=0;j<12;j=j+3){
                     for(i=0;i<12;i++){
@@ -82,25 +159,240 @@ void Sudoku::GiveQuestion()
                     row[j+1][i]=tempr[i];
                 }
                 }
-        }//每宮12列互換
+        }//每宮23列互換
         else if(b==1){
                 for(j=1;j<12;j=j+3){
                     for(i=0;i<12;i++){
-                    tempr[i]=row[j][i];
-                    row[j][i]=row[j+1][i];
-                    row[j+1][i]=tempr[i];
+                    tempr[i]=row[j+1][i];
+                    row[j+1][i]=row[j+2][i];
+                    row[j+2][i]=tempr[i];
                 }
                 }
-        }//每宮23列互換
+        }//每宮13列互換
         else if(b==2){
-                for(j=0;j<12;j=j+3)
+                for(j=0;j<12;j=j+3){
                 for(i=0;i<12;i++){
                     tempr[i]=row[j][i];
                     row[j][i]=row[j+2][i];
                     row[j+2][i]=tempr[i];
+                }
             }
-        }//每宮的13列互換
-
+        }//每宮的12行互換
+        else if(b==3){
+        	for(i=0;i<12;i=i+3){
+        		for(j=0;j<12;j++){
+        			tempr[j]=column[i][j];
+        			column[i][j]=column[i+1][j];
+        			column[i+1][j]=tempr[j];
+        		}
+        	}
+        	for(i=0;i<12;i++){
+        		for(j=0;j<12;j++){
+        			row[i][j]=column[j][i];
+        		}
+        	}
+        } 
+        //13行互換 
+        else if(b==4){
+        	for(i=0;i<12;i=i+3){
+        		for(j=0;j<12;j++){
+        			tempr[j]=column[i][j];
+        			column[i][j]=column[i+2][j];
+        			column[i+2][j]=tempr[j];
+        		}
+        	}
+        	for(i=0;i<12;i++){
+        		for(j=0;j<12;j++){
+        			row[i][j]=column[j][i];
+        		}
+        	}
+        }
+        //23行互換 
+        else if(b==5){
+        	for(i=0;i<12;i=i+3){
+        		for(j=0;j<12;j++){
+        			tempr[j]=column[i+1][j];
+        			column[i+1][j]=column[i+2][j];
+        			column[i+2][j]=tempr[j];
+        		}
+        	}
+        	for(i=0;i<12;i++){
+        		for(j=0;j<12;j++){
+        			row[i][j]=column[j][i];
+        		}
+        	}
+        }
+    }
+    //上下半部互換 
+    else if(a==3){
+    	int temp[12];
+    	for(i=0;i<6;i++){
+    		for(j=0;j<12;j++){
+    			temp[j]=row[i][j];
+    			row[i][j]=row[i+6][j];
+    			row[i+6][j]=temp[j];
+    		}
+    	}
+    }
+    //1~3列跟7~9列互換 
+    else if(a==4){
+    	int temp[12];
+    	for(i=0;i<3;i++){
+    		for(j=0;j<12;j++){
+    			temp[j]=row[i][j];
+    			row[i][j]=row[i+3][j];
+    			row[i+3][j]=temp[j];
+    		}
+    	}
+    }
+    //4~6行跟7~9互換 
+    else if(a==5){
+    	int temp[12];
+    	for(i=3;i<6;i++){
+    		for(j=0;j<12;j++){
+    			temp[j]=row[i][j];
+    			row[i][j]=row[i+3][j];
+    			row[i+3][j]=temp[j];
+    		}
+    	}
+    	random();//換完再去做宮裡面的交換 
+    }
+    //7~9列跟10~12列互換 
+    else if(a==5){
+    	int temp[12];
+    	for(i=6;i<9;i++){
+    		for(j=0;j<12;j++){
+    			temp[j]=row[i][j];
+    			row[i][j]=row[i+3][j];
+    			row[i+3][j]=temp[j];
+    		}
+    	}
+    	random();
+    }
+    //1~3列跟7~9互換 
+    else if(a==6){
+    	int temp[12];
+    	for(i=0;i<3;i++){
+    		for(j=0;j<12;j++){
+    			temp[j]=row[i][j];
+    			row[i][j]=row[i+6][j];
+    			row[i+6][j]=temp[j];
+    		}
+    	}
+    	random();
+    }
+    //4~6列跟10~12列互換 
+    else if(a==7){
+    	int temp[12];
+    	for(i=3;i<6;i++){
+    		for(j=0;j<12;j++){
+    			temp[j]=row[i][j];
+    			row[i][j]=row[i+6][j];
+    			row[i+6][j]=temp[j];
+    		}
+    	}
+    	random();
+    }
+    //1~3跟10~12互換 
+    else if(a==8){
+    	int temp[12];
+    	for(i=0;i<3;i++){
+    		for(j=0;j<12;j++){
+    			temp[j]=row[i][j];
+    			row[i][j]=row[i+9][j];
+    			row[i+9][j]=temp[j];
+    		}
+    	}
+    	random();
+    }
+    //將現有題目都加一，如果為九就變1 
+    else if(a==9){
+    	for(i=0;i<144;i++){
+    		if(su_num[i]>0){
+    			if(su_num[i]==9)su_num[i]=1;
+    			else if(su_num[i]<9){
+    				su_num[i]=su_num[i]+1;
+    			}
+    		}
+    	}
+    	divide();
+    	random();
+    }
+    //題目都加2，超過就從1開始 
+    else if(a==10){
+    	for(i=0;i<144;i++){
+    		if(su_num[i]>0){
+    			if(su_num[i]==8)su_num[i]=1;
+    			else if(su_num[i]==9)su_num[i]=2;
+    			else if(su_num[i]<8){
+    				su_num[i]=su_num[i]+2;
+    			}
+    		}
+    	}
+    	divide();
+    	random();
+    }
+    else if(a==11){
+    	for(i=0;i<144;i++){
+    		if(su_num[i]>0){
+    			if(su_num[i]==7)su_num[i]=1;
+    			else if(su_num[i]==8)su_num[i]=2;
+    			else if(su_num[i]==9)su_num[i]=3;
+    			else if(su_num[i]<7){
+    				su_num[i]=su_num[i]+3;
+    			}
+    		}
+    	}
+    	divide();
+    	random();
+    }
+    else if(a==12){
+    	for(i=0;i<144;i++){
+    		if(su_num[i]>0){
+    			if(su_num[i]==6)su_num[i]=1;
+    			else if(su_num[i]==7)su_num[i]=2;
+    			else if(su_num[i]==8)su_num[i]=3;
+    			else if(su_num[i]==9)su_num[i]=4;
+    			else if(su_num[i]<6){
+    				su_num[i]=su_num[i]+4;
+    			}
+    		}
+    	}
+    	divide();
+    	random();
+    }
+    else if(a==13){
+    	for(i=0;i<144;i++){
+    		if(su_num[i]>0){
+    			if(su_num[i]==5)su_num[i]=1;
+    			else if(su_num[i]==6)su_num[i]=2;
+    			else if(su_num[i]==7)su_num[i]=3;
+    			else if(su_num[i]==8)su_num[i]=4;
+    			else if(su_num[i]==9)su_num[i]=5;
+    			else if(su_num[i]<5){
+    				su_num[i]=su_num[i]+5;
+    			}
+    		}
+    	}
+    	divide();
+    	random();
+    }
+    else if(a==14){
+    	for(i=0;i<144;i++){
+    		if(su_num[i]>0){
+    			if(su_num[i]==4)su_num[i]=1;
+    			else if(su_num[i]==5)su_num[i]=2;
+    			else if(su_num[i]==6)su_num[i]=3;
+    			else if(su_num[i]==7)su_num[i]=4;
+    			else if(su_num[i]==8)su_num[i]=5;
+    			else if(su_num[i]==9)su_num[i]=6;
+    			else if(su_num[i]<4){
+    				su_num[i]=su_num[i]+6;
+    			}
+    		}
+    	}
+    	divide();
+    	random();
     }
     AfterRand();//將隨機後的數獨排列
     printQ();//印出數獨
@@ -174,12 +466,12 @@ int Sudoku::Solve()
         for(ti=0;ti<144;ti++){
                 Osu_num[ti]=su_num[ti];
         }
-//反向尋找
         for(ti=0;ti<=count;ti++){
         tput=tempN[ti];
         su_num[tput]=0;
     }
         tput=tempN[count];
+        //求第二個解，反向找 
     if(ans==1){
         while(count>0&&count<=max){
             tput=tempN[count];
@@ -201,7 +493,6 @@ int Sudoku::Solve()
             }
         }
     }
-//反填若答案相同則只有一組解
     for(ti=0;ti<144;ti++){
         if(su_num[ti]!=Osu_num[ti]&&su_num[ti]!=0){
                 ans=2;
