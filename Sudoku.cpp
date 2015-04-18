@@ -54,6 +54,7 @@ void Sudoku::divide(){
                 }
         }//將小列填入宮(直式填入)
 }
+//去換行列
 void Sudoku::random(){
 	int tempr[12];
 	int b=rand()%7;
