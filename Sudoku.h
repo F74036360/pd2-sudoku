@@ -11,7 +11,7 @@ class Sudoku
 		void ReadIn();//解他人的題目 
 		 int Solve();//解題 
 	private:
-                void random();
+		void random();
 		void Isu();//初始化題目數獨矩陣 
 		 int checkQ();
 		 int check(int tput);//驗證填入數字是否正確 
@@ -24,4 +24,5 @@ class Sudoku
 		int column[12][12];//行 
 		int divide_row[48][3];//分列來取得宮 
 		int B[16][9];  //宮 
+		void change();
 };
